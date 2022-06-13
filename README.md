@@ -13,6 +13,7 @@ Many uses, you can put it in the middle of your program code, etc. It sends the 
 
 ![](https://i.ibb.co/N7wf8Xw/2022-04-19-16-06-20-LI.jpg[/img][/url])
 ![](https://i.ibb.co/CW6CWHV/2022-04-19-16-10-19-LI.jpg)
+![](https://cdn.discordapp.com/attachments/885180941503459341/985936280561012786/2022-06-13_18_54_27_LI.jpg)
 
 
 
@@ -99,4 +100,6 @@ Many uses, you can put it in the middle of your program code, etc. It sends the 
 - Disk Usage Stats
 - Network Usage Stats
 
-[Discord](https://discord.gg/rydZxy7Qxr)
+6/13/2022
+- alternative_ip information has been added
+- time alternative has been fixed

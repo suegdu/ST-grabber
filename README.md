@@ -59,6 +59,27 @@ Many uses, you can put it in the middle of your program code, etc. It sends the 
 | `Local IP`|
 | ` Network Stats`|
 | ` Disk Stats`|
+|`Continent`|
+| `Continent Code`|
+|`Country`|
+|`Country Code`|
+|`Region`|
+|`Region Name`|
+|`City`|
+|`District`|
+|`Zipcode`|
+|`Latitude`|
+|`Longitude`|
+|`Timezone`|
+|`Currency`|
+|`ISP`|
+|`Organization`|
+|`AS`|
+|`AS Name`|
+|`Reverse DNS`|
+|`Mobile`|
+|`Proxy`|
+|`Hosting`|
 
 
 # Installtion :
